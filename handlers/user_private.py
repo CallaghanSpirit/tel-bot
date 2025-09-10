@@ -1,9 +1,9 @@
-from aiogram.filters import CommandStart,Command
+from aiogram.filters import CommandStart,Command, or_f
 from aiogram import  types, Router, F
 
 user_private_router = Router()
-@user_private_router.message(F.text ,F.text.lower().contains('привет'))
-@user_private_router.message(CommandStart())
+
+@user_private_router.message(or_f(CommandStart(), F.text.lower().contains('привет')))
 async def start_cmd(message:types.Message):
     await message.answer('Привет, я торговый бот на солане')
 
