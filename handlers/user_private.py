@@ -1,7 +1,9 @@
 from aiogram.filters import CommandStart,Command, or_f
 from aiogram import  types, Router, F
+from filters.chat_types import ChatTypeFilter
 
 user_private_router = Router()
+user_private_router.message.filter(ChatTypeFilter(chat_type=['private']))
 
 @user_private_router.message(or_f(CommandStart(), F.text.lower().contains('привет')))
 async def start_cmd(message:types.Message):
