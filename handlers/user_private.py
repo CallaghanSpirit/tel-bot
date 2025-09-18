@@ -2,12 +2,14 @@ from aiogram.filters import CommandStart,Command, or_f
 from aiogram import  types, Router, F
 from filters.chat_types import ChatTypeFilter
 
+from kdbs import reply
+
 user_private_router = Router()
 user_private_router.message.filter(ChatTypeFilter(chat_type=['private']))
 
 @user_private_router.message(or_f(CommandStart(), F.text.lower().contains('привет')))
 async def start_cmd(message:types.Message):
-    await message.answer('Привет, я торговый бот на солане')
+    await message.answer('Привет, я торговый бот на солане',reply_markup=reply.start_kb)
 
 @user_private_router.message(Command('menu'))
 async def menu(message:types.Message):
