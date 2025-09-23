@@ -7,11 +7,13 @@ from aiogram.client.default import DefaultBotProperties
 
 
 from dotenv import find_dotenv, load_dotenv
+
 load_dotenv(find_dotenv())
 
 from handlers.user_private import user_private_router
 from handlers.user_group import user_group_router
 from handlers.admin_private import admin_router
+# from middlewares.db import CounterMiddleware
 
 from common.bot_cmds_list import private
 
@@ -21,6 +23,8 @@ bot = Bot(token=os.getenv('TOKEN'),default=DefaultBotProperties(parse_mode=Parse
 bot.my_admins_list = []
 
 dp = Dispatcher()
+
+# admin_router.message.outer_middleware(CounterMiddleware())
 
 dp.include_router(user_private_router)
 dp.include_router(user_group_router)

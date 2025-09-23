@@ -37,7 +37,7 @@ async def change_product(message: types.Message):
 
 
 @admin_router.message(F.text == "Удалить товар")
-async def delete_product(message: types.Message):
+async def delete_product(message: types.Message, counter):
     await message.answer("Выберите товар(ы) для удаления")
 
 
@@ -129,4 +129,4 @@ async def add_image(message: types.Message, state: FSMContext):
     await message.answer("Товар добавлен", reply_markup=ADMIN_KB)
     data = await state.get_data()
     await message.answer(f"Название: {data['name']}\nОписание: {data['description']}\nЦена: {data['price']}\nИзображение: {data['image']}")
-    await state.clear()  # Завершаем машину состояний, очищая все данные
+    await state. clear()  # Завершаем машину состояний, очищая все данные
