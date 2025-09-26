@@ -14,8 +14,8 @@ from handlers.user_private import user_private_router
 from handlers.user_group import user_group_router
 from handlers.admin_private import admin_router
 
-from database.engine import create_db, drop_db
-# from middlewares.db import CounterMiddleware
+from database.engine import create_db, drop_db, session_maker
+from middlewares.db import DataBaseSession
 
 from common.bot_cmds_list import private
 
@@ -50,6 +50,7 @@ async def main():
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
+    dp.update.middleware(DataBaseSession(session_pool=session_maker))
 
 
     await bot.delete_webhook(drop_pending_updates=True)
