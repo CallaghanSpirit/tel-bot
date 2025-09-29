@@ -6,6 +6,9 @@ from aiogram.filters import StateFilter
 from filters.chat_types import ChatTypeFilter, IsAdmin
 from kbds.reply import get_keyboard
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from database.orm_query import orm_add_product
 
 admin_router = Router()
 admin_router.message.filter(ChatTypeFilter(["private"]), IsAdmin())
@@ -124,9 +127,17 @@ async def add_price(message: types.Message, state: FSMContext):
 
 
 @admin_router.message(AddProduct.image,F.photo)
-async def add_image(message: types.Message, state: FSMContext):
+async def add_image(message: types.Message, state: FSMContext, session: AsyncSession):
     await state.update_data(image=message.photo[-1].file_id)
-    await message.answer("Товар добавлен", reply_markup=ADMIN_KB)
+
     data = await state.get_data()
-    await message.answer(f"Название: {data['name']}\nОписание: {data['description']}\nЦена: {data['price']}\nИзображение: {data['image']}")
-    await state. clear()  # Завершаем машину состояний, очищая все данные
+    try:
+        await orm_add_product(
+            session=session,
+            data=data)
+        
+        await message.answer("Товар добавлен", reply_markup=ADMIN_KB)
+    except Exception as e:
+        await message.answer(f"Произошла ошибка: {e}", reply_markup=ADMIN_KB)
+
+    await state.clear()  # Завершаем машину состояний, очищая все данные
