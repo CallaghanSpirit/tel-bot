@@ -29,12 +29,12 @@ async def add_product(message: types.Message):
     await message.answer("Что хотите сделать?", reply_markup=ADMIN_KB)
 
 
-@admin_router.message(F.text == "Ассортимент товаров")
-async def starring_at_product(message: types.Message, session: AsyncSession):
-    for product in await orm_get_all_products(session=session):
-        await message.answer_photo(product.image, 
-                                   caption=f"<strong>{product.name}</strong>\n{product.description}\nCтоимость: {round(product.price,2)} руб.",)
-    await message.answer("ОК, вот список товаров")
+# @admin_router.message(F.text == "Ассортимент товаров")
+# async def starring_at_product(message: types.Message, session: AsyncSession):
+#     for product in await orm_get_all_products(session=session):
+#         await message.answer_photo(product.image, 
+#                                    caption=f"<strong>{product.name}</strong>\n{product.description}\nCтоимость: {round(product.price,2)} руб.",)
+#     await message.answer("ОК, вот список товаров")
 
 
 

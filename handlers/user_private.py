@@ -7,7 +7,9 @@ from aiogram.utils.formatting import (
     Bold,
 )  # Italic, as_numbered_list и тд
 
+from database.orm_query import orm_get_all_products
 from filters.chat_types import ChatTypeFilter
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from kbds.reply import get_keyboard
 
@@ -31,8 +33,11 @@ async def start_cmd(message: types.Message):
 
 
 # @user_private_router.message(F.text.lower() == "меню")
-@user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню")))
-async def menu_cmd(message: types.Message):
+@user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню"), F.text == "Ассортимент товаров"))
+async def menu_cmd(message: types.Message, session: AsyncSession):
+    for product in await orm_get_all_products(session=session):
+        await message.answer_photo(product.image, 
+                                caption=f"<strong>{product.name}</strong>\n{product.description}\nCтоимость: {round(product.price,2)} руб.",)
     await message.answer("Вот меню:")
 
 
