@@ -33,7 +33,7 @@ async def start_cmd(message: types.Message):
 
 
 # @user_private_router.message(F.text.lower() == "меню")
-@user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню"), F.text == "Ассортимент товаров"))
+@user_private_router.message(or_f(Command("menu"), (F.text.lower() == "меню"),))
 async def menu_cmd(message: types.Message, session: AsyncSession):
     for product in await orm_get_all_products(session=session):
         await message.answer_photo(product.image, 
