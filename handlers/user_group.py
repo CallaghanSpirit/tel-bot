@@ -17,7 +17,7 @@ async def get_admins(message: types.Message, bot: Bot):
     chat_id = message.chat.id
     admins_list = await bot.get_chat_administrators(chat_id)
     #просмотреть все данные и свойства полученных объектов
-    # print(admins_list)
+    #print(admins_list)
     # Код ниже это генератор списка, как и этот x = [i for i in range(10)]
     admins_list = [
         member.user.id
@@ -27,7 +27,7 @@ async def get_admins(message: types.Message, bot: Bot):
     bot.my_admins_list = admins_list
     if message.from_user.id in admins_list:
         await message.delete()
-    # print(admins_list)
+    #print(admins_list)
 
 
 def clean_text(text: str):
