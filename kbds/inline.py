@@ -1,8 +1,9 @@
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.filters.callback_data import CallbackData
 
  
-class MenuCallBack:
+class MenuCallBack(CallbackData, prefix="menu"):
     level: int
     menu_name: str
     category: int | None = None

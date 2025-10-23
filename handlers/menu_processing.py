@@ -3,9 +3,9 @@ from database.orm_query import orm_get_banner
 from aiogram.types import InputMediaPhoto
 from kbds.inline import get_user_main_btns
 
-async def main_menu(session, level, main_name):
-    banner = await orm_get_banner(session, main_name)
-    image = InputMediaPhoto(banner.image, caption=banner.description)
+async def main_menu(session, level, menu_name):
+    banner = await orm_get_banner(session, menu_name)
+    image = InputMediaPhoto(media=banner.image, caption=banner.description)
 
     kbds = get_user_main_btns(level=level)
 
